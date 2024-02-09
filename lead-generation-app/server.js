@@ -23,13 +23,16 @@ app.use(express.json());
 
 // Create leads table
 db.serialize(() => {
-    db.run("CREATE TABLE IF NOT EXISTS leads (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname TEXT, lastname TEXT, email TEXT, phone TEXT, message TEXT)");
+    const query = 'CREATE TABLE IF NOT EXISTS leads (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname TEXT, lastname TEXT, email TEXT, phone TEXT, message TEXT)';
+    db.run(query);
 });
 
 app.post('/submit', (req, res) => {
     const { firstname, lastname, email, phone, message } = req.body;
 
-    db.run('INSERT INTO leads (firstname, lastname, email, phone, message) VALUES (?, ?, ?, ?, ?)', [firstname, lastname, email, phone, message], (err) => {
+    const query = 'INSERT INTO leads (firstname, lastname, email, phone, message) VALUES (?, ?, ?, ?, ?)'
+
+    db.run(query, [firstname, lastname, email, phone, message], (err) => {
         if (err) {
             console.error(err.message);
             res.status(500).send('Server Error');
@@ -40,12 +43,33 @@ app.post('/submit', (req, res) => {
 });
 
 app.get('/getleads', (req, res) => {
-    db.all('SELECT * FROM leads', (err, rows) => {
+
+    const query = 'SELECT * FROM leads'
+
+    db.all(query, (err, rows) => {
         if (err) {
             res.status(500).send('Server Error');
         } else {
             res.status(200).json(rows);
         }
+    });
+});
+
+app.delete('/deletelead/:id', (req, res) => {
+    const itemId = req.params.id;
+
+    const query = 'DELETE FROM leads WHERE id = ?';
+
+    db.run(query, [itemId], function (err) {
+      if (err) {
+        console.error('Error deleting item:', err);
+        return res.status(500).send('Internal Server Error');
+      }
+      if (this.changes === 0) {
+        // No rows were affected, meaning item with given ID doesn't exist
+        return res.status(404).send('Item not found');
+      }
+      res.status(200).send('Item deleted successfully');
     });
 });
 

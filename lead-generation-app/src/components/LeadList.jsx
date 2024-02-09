@@ -1,6 +1,8 @@
 // LeadList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import Header from './Header';
 import Footer from './Footer';
 
@@ -20,6 +22,15 @@ const LeadList = () => {
             setLeads(response.data);
         } catch (error) {
             console.error('Error fetching leads:', error);
+        }
+    };
+
+    const deleteItem = async (leadId) => {
+        try {
+          await axios.delete(`http://localhost:3001/deletelead/${leadId}`);
+          setLeads(leads.filter(lead => lead.id !== leadId));
+        } catch (error) {
+          console.error('Error deleting item:', error);
         }
     };
 
@@ -48,6 +59,11 @@ const LeadList = () => {
                                     <td>{lead.email}</td>
                                     <td>{lead.phone}</td>
                                     <td>{lead.message}</td>
+                                    <td>
+                                        <button onClick={() => deleteItem(lead.id)}>
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

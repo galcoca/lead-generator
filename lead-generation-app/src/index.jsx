@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './assets/css/index.css';
 import './assets/css/App.css';
+import './assets/css/navigation.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LeadForm from './components/LeadForm';
 import LeadList from './components/LeadList';

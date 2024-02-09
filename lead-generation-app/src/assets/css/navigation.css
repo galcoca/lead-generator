@@ -1,0 +1,32 @@
+.appHeader {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #011c53;
+	color: white;
+}
+
+.headerTitle {
+	margin: 0; /* Remove default margin */
+}
+
+.navBar {
+	margin-top: 10px; /* Adjust margin as needed */
+	align-self: flex-end;
+	margin-right: 20px;
+}
+
+.navBarList {
+	list-style: none;
+	padding: 0;
+}
+
+.navBarListItem {
+	display: inline-block;
+	margin-left: 20px; /* Adjust margin between menu items */
+}
+
+.navBarItem {
+	text-decoration: none;
+	color: white;
+}
