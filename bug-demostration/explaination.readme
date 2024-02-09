@@ -1,0 +1,4 @@
+- Changed if n = 0 to if n == 0 to properly check for equality.
+- Modified the Fibonacci function to return an empty list for non-positive n and return [0] when n is 1.
+- Corrected the initial values of the Fibonacci sequence to [0, 1].
+- Fixed the range in the Fibonacci loop to range(2, n) to generate correct Fibonacci sequence of length n.
